@@ -1,0 +1,7 @@
+.env
+__pycache__/
+.pytest_cache/
+audit/events.jsonl
+.ipynb_checkpoints/
+*.pyc
+.DS_Store
