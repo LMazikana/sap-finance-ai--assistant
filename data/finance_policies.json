@@ -1,0 +1,41 @@
+[
+    {
+        "policy_id": "FIN-JE-001",
+        "title": "High-Value Journal Entry Approval",
+        "text": "Journal entries above $100,000 require approval from both the Controller and the Finance Director.",
+        "keywords": [
+            "journal entry",
+            "high value",
+            "approval",
+            "controller"
+        ],
+        "source": "Synthetic SAP Finance Policy Manual",
+        "version": "1.0"
+    },
+    {
+        "policy_id": "FIN-AP-001",
+        "title": "Vendor Bank Detail Changes",
+        "text": "Vendor bank-detail changes require independent verification and approval from an Accounts Payable Manager.",
+        "keywords": [
+            "vendor",
+            "bank details",
+            "accounts payable",
+            "approval"
+        ],
+        "source": "Synthetic SAP Finance Policy Manual",
+        "version": "1.0"
+    },
+    {
+        "policy_id": "FIN-CL-001",
+        "title": "Financial Period Close",
+        "text": "All manual accruals must be reviewed before the financial period is closed.",
+        "keywords": [
+            "period close",
+            "accrual",
+            "review",
+            "month end"
+        ],
+        "source": "Synthetic SAP Finance Policy Manual",
+        "version": "1.0"
+    }
+]
