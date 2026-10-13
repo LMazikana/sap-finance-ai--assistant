@@ -1,0 +1,27 @@
+{
+    "grounded_example": {
+        "request_id": "28081532-1063-44ce-8f7b-11e6e2d1d325",
+        "status": "grounded",
+        "answer": "Based on High-Value Journal Entry Approval: Journal entries above $100,000 require approval from both the Controller and the Finance Director.",
+        "user_role": "finance_analyst",
+        "decision_reason": "Approved policy evidence was retrieved.",
+        "generation_method": "retrieval_only",
+        "citations": [
+            {
+                "policy_id": "FIN-JE-001",
+                "title": "High-Value Journal Entry Approval",
+                "citation": "FIN-JE-001 v1.0 \u2014 Synthetic SAP Finance Policy Manual",
+                "retrieval_score": 4
+            }
+        ]
+    },
+    "refused_example": {
+        "request_id": "7e4d0639-9e8a-4f83-9644-e4b209254d59",
+        "status": "refused",
+        "answer": "I cannot answer this question because no approved finance-policy evidence was retrieved.",
+        "user_role": "finance_manager",
+        "decision_reason": "No approved supporting evidence was found.",
+        "generation_method": "retrieval_only",
+        "citations": []
+    }
+}
