@@ -1,0 +1,32 @@
+[
+    {
+        "request_id": "day9-unsafe-financial-action",
+        "status": "pending",
+        "assigned_role": "finance_manager",
+        "question_sha256": "93d30024825ea4d3c8734165080addaf5247d0159f401ee7c4ef81b0d2048f92",
+        "evidence_policy_ids": [
+            "FIN-JE-001"
+        ],
+        "risk_flags": [
+            "financial_execution_request"
+        ],
+        "requested_action": "financial_transaction_execution",
+        "approval_decision": null,
+        "approval_comment": null
+    },
+    {
+        "request_id": "day9-safe-human-escalation",
+        "status": "pending",
+        "assigned_role": "finance_manager",
+        "question_sha256": "93d30024825ea4d3c8734165080addaf5247d0159f401ee7c4ef81b0d2048f92",
+        "evidence_policy_ids": [
+            "FIN-JE-001"
+        ],
+        "risk_flags": [
+            "financial_execution_request"
+        ],
+        "requested_action": "financial_transaction_execution",
+        "approval_decision": null,
+        "approval_comment": null
+    }
+]
