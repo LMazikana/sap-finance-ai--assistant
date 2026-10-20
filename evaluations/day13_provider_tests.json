@@ -1,0 +1,72 @@
+{
+  "generated_at_utc": "2026-10-20T04:34:10.024366+00:00",
+  "component": "model-provider-boundary",
+  "network_calls_made": false,
+  "actual_sleep_used": false,
+  "test_count": 6,
+  "passed_count": 6,
+  "failed_count": 0,
+  "tests": [
+    {
+      "test_name": "immediate_success",
+      "passed": true,
+      "details": {
+        "attempts": 1,
+        "retry_delays": []
+      },
+      "error": null
+    },
+    {
+      "test_name": "transient_then_success",
+      "passed": true,
+      "details": {
+        "attempts": 2,
+        "retry_delays": [
+          0.1
+        ]
+      },
+      "error": null
+    },
+    {
+      "test_name": "timeout_then_success",
+      "passed": true,
+      "details": {
+        "attempts": 2,
+        "retry_delays": [
+          0.1
+        ],
+        "timeout_seconds": 5.0
+      },
+      "error": null
+    },
+    {
+      "test_name": "permanent_failure_no_retry",
+      "passed": true,
+      "details": {
+        "attempts": 1,
+        "retry_delays": []
+      },
+      "error": null
+    },
+    {
+      "test_name": "retry_exhaustion",
+      "passed": true,
+      "details": {
+        "attempts": 3,
+        "retry_delays": [
+          0.1,
+          0.2
+        ]
+      },
+      "error": null
+    },
+    {
+      "test_name": "request_validation",
+      "passed": true,
+      "details": {
+        "validation_error": "Unsupported chat-message role: tool"
+      },
+      "error": null
+    }
+  ]
+}
