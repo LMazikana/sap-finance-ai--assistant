@@ -1,0 +1,51 @@
+[
+  {
+    "day": 20,
+    "date": "2026-10-26",
+    "focus": "Python and APIs",
+    "objective": "Create a validated POST request and response contract.",
+    "deliverable": "Request validation and API contract tests"
+  },
+  {
+    "day": 21,
+    "date": "2026-10-27",
+    "focus": "SAP Generative AI Hub and prompts",
+    "objective": "Create a credential-free Harmonized API adapter.",
+    "deliverable": "SAP provider adapter with mocked HTTP tests"
+  },
+  {
+    "day": 22,
+    "date": "2026-10-28",
+    "focus": "RAG and enterprise data",
+    "objective": "Compare keyword retrieval with local TF-IDF retrieval.",
+    "deliverable": "Retriever comparison with relevance metrics"
+  },
+  {
+    "day": 23,
+    "date": "2026-10-29",
+    "focus": "Evaluation, security and governance",
+    "objective": "Create trace-level production monitoring scorers.",
+    "deliverable": "MLflow-compatible monitoring contract"
+  },
+  {
+    "day": 24,
+    "date": "2026-10-30",
+    "focus": "SAP BTP integration and deployment",
+    "objective": "Parse synthetic VCAP_SERVICES configuration safely.",
+    "deliverable": "Service-binding loader and fail-closed tests"
+  },
+  {
+    "day": 25,
+    "date": "2026-10-31",
+    "focus": "Portfolio project",
+    "objective": "Expose the pipeline through an /api/v1/ask endpoint.",
+    "deliverable": "Local portfolio API with end-to-end tests"
+  },
+  {
+    "day": 26,
+    "date": "2026-11-01",
+    "focus": "Review and interview preparation",
+    "objective": "Review evidence and practice productionization answers.",
+    "deliverable": "Revised portfolio and interview story"
+  }
+]

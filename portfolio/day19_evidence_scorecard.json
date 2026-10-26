@@ -1,0 +1,76 @@
+{
+  "portfolio": "Governed SAP Finance Assistant",
+  "review_period": "Days 13\u201318",
+  "executive_summary": "A governed Finance RAG assistant that retrieves synthetic enterprise policies, returns source citations, applies role-aware controls, routes execution requests to human approval and creates audit evidence.",
+  "verified_metrics": {
+    "governance_cases_passed": 6,
+    "governance_cases_total": 6,
+    "deployment_checks_passed": 11,
+    "deployment_checks_total": 11,
+    "portfolio_cases_passed": 4,
+    "portfolio_cases_total": 4,
+    "deployment_secret_findings": 0
+  },
+  "capability_evidence": [
+    {
+      "capability": "Enterprise RAG",
+      "status": "LOCAL_PROOF_COMPLETED",
+      "evidence": [
+        "app/enterprise_rag.py",
+        "data/day15_enterprise_finance_chunks.json"
+      ],
+      "production_mapping": "Databricks Vector Search or SAP grounding"
+    },
+    {
+      "capability": "AI evaluation",
+      "status": "LOCAL_PROOF_COMPLETED",
+      "evidence": [
+        "evaluations/day16_governance_report.json",
+        "governance/day16_release_gate.json"
+      ],
+      "production_mapping": "MLflow evaluation datasets and scorers"
+    },
+    {
+      "capability": "Security and governance",
+      "status": "LOCAL_PROOF_COMPLETED",
+      "evidence": [
+        "governance/day16_release_gate.json",
+        "audit/day16_evaluation_events.jsonl"
+      ],
+      "production_mapping": "Unity Catalog permissions and lineage"
+    },
+    {
+      "capability": "Deployment design",
+      "status": "READY_FOR_REVIEW",
+      "evidence": [
+        "app/btp_runtime.py",
+        "manifest.day17.yml",
+        "deployment/day17_readiness_report.json"
+      ],
+      "production_mapping": "SAP BTP Cloud Foundry"
+    },
+    {
+      "capability": "End-to-end orchestration",
+      "status": "LOCAL_PROOF_COMPLETED",
+      "evidence": [
+        "app/portfolio_pipeline.py",
+        "demo/day18_portfolio_report.json",
+        "audit/day18_portfolio_traces.jsonl"
+      ],
+      "production_mapping": "SAP Generative AI Hub or Databricks serving"
+    },
+    {
+      "capability": "Live model integration",
+      "status": "PLANNED",
+      "evidence": [],
+      "production_mapping": "SAP Harmonized API or model serving endpoint"
+    }
+  ],
+  "current_limitations": [
+    "Retrieval is local rather than Databricks Vector Search.",
+    "The provider is deterministic rather than a live LLM.",
+    "Tracing is JSONL rather than MLflow Tracing.",
+    "Authorization uses synthetic roles rather than enterprise IAM.",
+    "The application has not been deployed to a live BTP space."
+  ]
+}
