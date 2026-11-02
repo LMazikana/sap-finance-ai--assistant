@@ -1,0 +1,1 @@
+{"checks_passed": 11, "checks_total": 11, "decision": "READY_FOR_BTP_DEPLOYMENT_REVIEW", "event_type": "deployment_readiness_assessment", "governance_gate_sha256": "e3e4b859c29ac28773ccb459305907aa75d295e3d8ed5460cce18089c14c7cf0", "manifest_sha256": "178fe6537643927c75ba9190226a2fcfd72cddb9cebce48c2d837162783aa444", "timestamp_utc": "2026-10-24T18:03:29.205828+00:00"}

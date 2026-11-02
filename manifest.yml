@@ -1,0 +1,17 @@
+---
+applications:
+  - name: sap-finance-ai-assistant
+    path: .
+    memory: 512M
+    disk-quota: 1G
+    instances: 1
+    buildpacks:
+      - python_buildpack
+    command: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 app.btp_service:app
+    health-check-type: http
+    health-check-http-endpoint: /health
+    env:
+      APP_ENV: production
+      MODEL_MODE: deterministic-preview
+      RETRIEVAL_TOP_K: "3"
+      ENABLE_LOCAL_AUDIT_FILE: "false"

@@ -1,0 +1,263 @@
+{
+  "day": 20,
+  "date": "2026-10-26",
+  "topic": "Python APIs and resilient model invocation",
+  "module": "app/resilient_model_client.py",
+  "total_cases": 6,
+  "passed_cases": 6,
+  "cases": [
+    {
+      "scenario": "success_first_attempt",
+      "passed": true,
+      "expected_ok": true,
+      "expected_attempts": 1,
+      "expected_status": 200,
+      "recorded_delays": [],
+      "result": {
+        "ok": true,
+        "request_id": "d2e56087-a878-4647-afb3-588bfe2090a8",
+        "attempts": 1,
+        "status_code": 200,
+        "response": {
+          "answer": "Manual journal entries above the policy threshold require finance-manager approval.",
+          "decision": "answer",
+          "requires_human_approval": true,
+          "citations": [
+            "FIN-JE-001"
+          ]
+        },
+        "error_code": null,
+        "audit_event": {
+          "event_type": "model_api_call",
+          "timestamp_utc": "2026-10-28T03:44:49.772689+00:00",
+          "request_id": "d2e56087-a878-4647-afb3-588bfe2090a8",
+          "user_role": "finance_analyst",
+          "question_sha256": "967f539f036b218639da765d1ca10bae8a07b26ba6e1b183b25bbf684f83cb64",
+          "policy_ids": [
+            "FIN-JE-001"
+          ],
+          "attempts": 1,
+          "status_code": 200,
+          "outcome": "success",
+          "error_code": null,
+          "metadata": {
+            "provider": "provider-neutral-test",
+            "prompt_template_id": "governed-sap-finance-assistant",
+            "prompt_template_version": "1.0.0",
+            "api_token": "[REDACTED]"
+          }
+        }
+      }
+    },
+    {
+      "scenario": "rate_limit_then_success",
+      "passed": true,
+      "expected_ok": true,
+      "expected_attempts": 2,
+      "expected_status": 200,
+      "recorded_delays": [
+        0.0
+      ],
+      "result": {
+        "ok": true,
+        "request_id": "5a70b799-e8fd-4cff-8d98-62851e7c947c",
+        "attempts": 2,
+        "status_code": 200,
+        "response": {
+          "answer": "Manual journal entries above the policy threshold require finance-manager approval.",
+          "decision": "answer",
+          "requires_human_approval": true,
+          "citations": [
+            "FIN-JE-001"
+          ]
+        },
+        "error_code": null,
+        "audit_event": {
+          "event_type": "model_api_call",
+          "timestamp_utc": "2026-10-28T03:44:49.772865+00:00",
+          "request_id": "5a70b799-e8fd-4cff-8d98-62851e7c947c",
+          "user_role": "finance_analyst",
+          "question_sha256": "967f539f036b218639da765d1ca10bae8a07b26ba6e1b183b25bbf684f83cb64",
+          "policy_ids": [
+            "FIN-JE-001"
+          ],
+          "attempts": 2,
+          "status_code": 200,
+          "outcome": "success",
+          "error_code": null,
+          "metadata": {
+            "provider": "provider-neutral-test",
+            "prompt_template_id": "governed-sap-finance-assistant",
+            "prompt_template_version": "1.0.0",
+            "api_token": "[REDACTED]"
+          }
+        }
+      }
+    },
+    {
+      "scenario": "service_unavailable_then_success",
+      "passed": true,
+      "expected_ok": true,
+      "expected_attempts": 2,
+      "expected_status": 200,
+      "recorded_delays": [
+        0
+      ],
+      "result": {
+        "ok": true,
+        "request_id": "c30b0122-fa23-47c9-b50f-ef2bd2fea34f",
+        "attempts": 2,
+        "status_code": 200,
+        "response": {
+          "answer": "Manual journal entries above the policy threshold require finance-manager approval.",
+          "decision": "answer",
+          "requires_human_approval": true,
+          "citations": [
+            "FIN-JE-001"
+          ]
+        },
+        "error_code": null,
+        "audit_event": {
+          "event_type": "model_api_call",
+          "timestamp_utc": "2026-10-28T03:44:49.772997+00:00",
+          "request_id": "c30b0122-fa23-47c9-b50f-ef2bd2fea34f",
+          "user_role": "finance_analyst",
+          "question_sha256": "967f539f036b218639da765d1ca10bae8a07b26ba6e1b183b25bbf684f83cb64",
+          "policy_ids": [
+            "FIN-JE-001"
+          ],
+          "attempts": 2,
+          "status_code": 200,
+          "outcome": "success",
+          "error_code": null,
+          "metadata": {
+            "provider": "provider-neutral-test",
+            "prompt_template_id": "governed-sap-finance-assistant",
+            "prompt_template_version": "1.0.0",
+            "api_token": "[REDACTED]"
+          }
+        }
+      }
+    },
+    {
+      "scenario": "unauthorized_no_retry",
+      "passed": true,
+      "expected_ok": false,
+      "expected_attempts": 1,
+      "expected_status": 401,
+      "recorded_delays": [],
+      "result": {
+        "ok": false,
+        "request_id": "82081c9f-8bda-4474-b5ab-4a4c66a06c4c",
+        "attempts": 1,
+        "status_code": 401,
+        "response": null,
+        "error_code": "http_401",
+        "audit_event": {
+          "event_type": "model_api_call",
+          "timestamp_utc": "2026-10-28T03:44:49.773107+00:00",
+          "request_id": "82081c9f-8bda-4474-b5ab-4a4c66a06c4c",
+          "user_role": "finance_analyst",
+          "question_sha256": "967f539f036b218639da765d1ca10bae8a07b26ba6e1b183b25bbf684f83cb64",
+          "policy_ids": [
+            "FIN-JE-001"
+          ],
+          "attempts": 1,
+          "status_code": 401,
+          "outcome": "failure",
+          "error_code": "http_401",
+          "metadata": {
+            "provider": "provider-neutral-test",
+            "prompt_template_id": "governed-sap-finance-assistant",
+            "prompt_template_version": "1.0.0",
+            "api_token": "[REDACTED]"
+          }
+        }
+      }
+    },
+    {
+      "scenario": "timeout_then_success",
+      "passed": true,
+      "expected_ok": true,
+      "expected_attempts": 2,
+      "expected_status": 200,
+      "recorded_delays": [
+        0
+      ],
+      "result": {
+        "ok": true,
+        "request_id": "d49caee0-2892-4d88-8ecb-e0db61a3faca",
+        "attempts": 2,
+        "status_code": 200,
+        "response": {
+          "answer": "Manual journal entries above the policy threshold require finance-manager approval.",
+          "decision": "answer",
+          "requires_human_approval": true,
+          "citations": [
+            "FIN-JE-001"
+          ]
+        },
+        "error_code": null,
+        "audit_event": {
+          "event_type": "model_api_call",
+          "timestamp_utc": "2026-10-28T03:44:49.773214+00:00",
+          "request_id": "d49caee0-2892-4d88-8ecb-e0db61a3faca",
+          "user_role": "finance_analyst",
+          "question_sha256": "967f539f036b218639da765d1ca10bae8a07b26ba6e1b183b25bbf684f83cb64",
+          "policy_ids": [
+            "FIN-JE-001"
+          ],
+          "attempts": 2,
+          "status_code": 200,
+          "outcome": "success",
+          "error_code": null,
+          "metadata": {
+            "provider": "provider-neutral-test",
+            "prompt_template_id": "governed-sap-finance-assistant",
+            "prompt_template_version": "1.0.0",
+            "api_token": "[REDACTED]"
+          }
+        }
+      }
+    },
+    {
+      "scenario": "retry_attempts_exhausted",
+      "passed": true,
+      "expected_ok": false,
+      "expected_attempts": 3,
+      "expected_status": 503,
+      "recorded_delays": [
+        0,
+        0
+      ],
+      "result": {
+        "ok": false,
+        "request_id": "6033ad47-3bfe-4ed7-abcc-d01030c43e5b",
+        "attempts": 3,
+        "status_code": 503,
+        "response": null,
+        "error_code": "http_503",
+        "audit_event": {
+          "event_type": "model_api_call",
+          "timestamp_utc": "2026-10-28T03:44:49.773325+00:00",
+          "request_id": "6033ad47-3bfe-4ed7-abcc-d01030c43e5b",
+          "user_role": "finance_analyst",
+          "question_sha256": "967f539f036b218639da765d1ca10bae8a07b26ba6e1b183b25bbf684f83cb64",
+          "policy_ids": [
+            "FIN-JE-001"
+          ],
+          "attempts": 3,
+          "status_code": 503,
+          "outcome": "failure",
+          "error_code": "http_503",
+          "metadata": {
+            "provider": "provider-neutral-test",
+            "prompt_template_id": "governed-sap-finance-assistant",
+            "prompt_template_version": "1.0.0",
+            "api_token": "[REDACTED]"
+          }
+        }
+      }
+    }
+  ]
+}

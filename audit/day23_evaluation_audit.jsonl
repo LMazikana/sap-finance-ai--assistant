@@ -1,0 +1,2 @@
+{"event_type": "evaluation_completed", "timestamp_utc": "2026-11-02T03:53:53.325855+00:00", "dataset": "day23_evaluation_cases", "candidate_versions": ["baseline-v1", "hardened-v2"]}
+{"event_type": "release_gate_evaluated", "timestamp_utc": "2026-11-02T03:53:53.325870+00:00", "candidate_version": "hardened-v2", "technical_gate": "PASS", "human_approval_status": "PENDING", "deployment_authorized": false}

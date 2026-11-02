@@ -1,0 +1,32 @@
+[
+  {
+    "test_name": "Payload contains no credential fields",
+    "passed": true,
+    "detail": "Credential locations: []"
+  },
+  {
+    "test_name": "Payload uses an SAP V2 prompt-templating module",
+    "passed": true,
+    "detail": "Both the prompt and model configurations are present."
+  },
+  {
+    "test_name": "Payload requests JSON output",
+    "passed": true,
+    "detail": "Response format: json_object"
+  },
+  {
+    "test_name": "Untrusted question remains a placeholder value",
+    "passed": true,
+    "detail": "The user question did not alter the system message."
+  },
+  {
+    "test_name": "Governed escalation response is accepted",
+    "passed": true,
+    "detail": "Execution request was routed to human approval."
+  },
+  {
+    "test_name": "Unsafe escalation response is rejected",
+    "passed": true,
+    "detail": "Escalation cannot bypass human approval."
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "application": {
+    "name": "sap-finance-ai-assistant",
+    "runtime": "SAP BTP Cloud Foundry",
+    "language": "Python 3.11",
+    "web_server": "Gunicorn",
+    "entrypoint": "app.btp_runtime:app"
+  },
+  "deployment_files": [
+    "app/btp_runtime.py",
+    "manifest.day17.yml",
+    "requirements.txt",
+    "governance/day16_release_gate.json"
+  ],
+  "health_contract": {
+    "liveness_endpoint": "/health",
+    "readiness_endpoint": "/ready",
+    "governance_endpoint": "/api/v1/governance/status"
+  },
+  "governance_contract": {
+    "required_gate_decision": "APPROVED_FOR_LOCAL_DEMO",
+    "current_deployment_decision": "READY_FOR_BTP_DEPLOYMENT_REVIEW",
+    "deployment_scope": "Portfolio demonstration; production approval excluded"
+  },
+  "credential_strategy": {
+    "source_code_credentials": "prohibited",
+    "manifest_credentials": "prohibited",
+    "recommended_delivery": "SAP BTP service bindings through VCAP_SERVICES",
+    "expected_services": [
+      "SAP AI Core service instance",
+      "Authentication service where applicable",
+      "Approved logging or observability service"
+    ]
+  },
+  "remaining_manual_steps": [
+    "Create or select the SAP BTP Cloud Foundry space.",
+    "Create the required SAP service instances.",
+    "Bind service instances to the application.",
+    "Review application roles and least-privilege access.",
+    "Deploy the approved application package.",
+    "Verify the health and readiness endpoints.",
+    "Run a post-deployment governance smoke test."
+  ]
+}

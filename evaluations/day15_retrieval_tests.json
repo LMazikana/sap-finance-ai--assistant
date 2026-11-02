@@ -1,0 +1,37 @@
+[
+  {
+    "test_name": "Analyst retrieves the general journal policy",
+    "passed": true,
+    "detail": "Returned policies: ['POL-JE-001']"
+  },
+  {
+    "test_name": "Every result has a stable source citation",
+    "passed": true,
+    "detail": "Citation format is policy_id#chunk_id."
+  },
+  {
+    "test_name": "Analyst cannot retrieve controller-only approval policy",
+    "passed": true,
+    "detail": "Returned policies: ['POL-JE-001']"
+  },
+  {
+    "test_name": "Controller can retrieve high-value approval policy",
+    "passed": true,
+    "detail": "Returned policies: ['POL-CLOSE-001', 'POL-JE-001', 'POL-JE-002']"
+  },
+  {
+    "test_name": "Company-code filter blocks company-1000 payroll policy",
+    "passed": true,
+    "detail": "Returned policies: []"
+  },
+  {
+    "test_name": "Retrieval audit does not store the raw question",
+    "passed": true,
+    "detail": "Audit record uses a truncated SHA-256 query hash."
+  },
+  {
+    "test_name": "SAP prompt contains only security-trimmed context",
+    "passed": true,
+    "detail": "Prompt policies: ['POL-JE-001']"
+  }
+]

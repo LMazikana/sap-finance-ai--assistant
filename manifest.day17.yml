@@ -1,0 +1,22 @@
+---
+applications:
+- name: sap-finance-ai-assistant
+  path: .
+  memory: 512M
+  disk-quota: 1G
+  instances: 1
+  buildpacks:
+  - python_buildpack
+  command: gunicorn --bind 0.0.0.0:$PORT app.btp_runtime:app
+  health-check-type: http
+  health-check-http-endpoint: /health
+  health-check-invocation-timeout: 10
+  readiness-health-check-type: http
+  readiness-health-check-http-endpoint: /ready
+  readiness-health-check-invocation-timeout: 10
+  timeout: 120
+  env:
+    APP_ENV: production
+    APP_VERSION: day17
+    GOVERNANCE_GATE_PATH: governance/day16_release_gate.json
+    LOG_LEVEL: INFO

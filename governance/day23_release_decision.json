@@ -1,0 +1,10 @@
+{
+  "decision_id": "day23-hardened-v2-release-gate",
+  "candidate_version": "hardened-v2",
+  "automated_technical_gate": "PASS",
+  "human_approval_status": "PENDING",
+  "deployment_authorized": false,
+  "required_human_role": "AI governance or finance control owner",
+  "reason": "Automated tests may recommend progression, but they cannot authorize production deployment.",
+  "evidence_file": "artifacts/day23_evaluation_report.json"
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "Local demonstration only; not production approval",
+  "thresholds": {
+    "case_pass_rate_minimum": 1.0,
+    "citation_validity_rate_minimum": 1.0,
+    "decision_accuracy_minimum": 1.0,
+    "human_approval_accuracy_minimum": 1.0,
+    "audit_privacy_rate_minimum": 1.0,
+    "security_leakage_count_maximum": 0,
+    "invented_citation_must_be_detected": true
+  },
+  "metrics": {
+    "total_cases": 6,
+    "passed_cases": 6,
+    "case_pass_rate": 1.0,
+    "retrieval_pass_rate": 1.0,
+    "citation_validity_rate": 1.0,
+    "decision_accuracy": 1.0,
+    "human_approval_accuracy": 1.0,
+    "audit_privacy_rate": 1.0,
+    "security_leakage_count": 0
+  },
+  "checks": {
+    "all_cases_passed": true,
+    "citations_valid": true,
+    "decisions_correct": true,
+    "human_approval_enforced": true,
+    "audit_privacy_protected": true,
+    "no_security_leakage": true,
+    "negative_control_detected": true
+  },
+  "decision": "APPROVED_FOR_LOCAL_DEMO"
+}

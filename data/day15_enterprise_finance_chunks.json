@@ -1,0 +1,111 @@
+[
+  {
+    "chunk_id": "JE-001-01",
+    "policy_id": "POL-JE-001",
+    "title": "Manual Journal Entry Documentation",
+    "content": "Before submission, every manual journal entry must include a business purpose, supporting evidence, preparer identity, company code, amount, currency and posting date.",
+    "business_domain": "general_ledger",
+    "allowed_roles": [
+      "FINANCE_ANALYST",
+      "FINANCE_MANAGER",
+      "CONTROLLER",
+      "AUDITOR"
+    ],
+    "company_codes": [
+      "1000",
+      "2000"
+    ],
+    "confidentiality": "internal",
+    "effective_date": "2026-01-01",
+    "source_uri": "synthetic://finance/policies/POL-JE-001"
+  },
+  {
+    "chunk_id": "JE-002-01",
+    "policy_id": "POL-JE-002",
+    "title": "High-Value Journal Entry Approval",
+    "content": "Journal entries above USD 10,000 require approval from both the Finance Manager and Controller before posting. The preparer cannot approve their own journal entry.",
+    "business_domain": "general_ledger",
+    "allowed_roles": [
+      "FINANCE_MANAGER",
+      "CONTROLLER",
+      "AUDITOR"
+    ],
+    "company_codes": [
+      "1000"
+    ],
+    "confidentiality": "restricted",
+    "effective_date": "2026-01-01",
+    "source_uri": "synthetic://finance/policies/POL-JE-002"
+  },
+  {
+    "chunk_id": "CLOSE-001-01",
+    "policy_id": "POL-CLOSE-001",
+    "title": "Period-Close Exception Posting",
+    "content": "A journal entry submitted after the period-close cutoff requires a documented business justification and Controller exception approval before it can be posted.",
+    "business_domain": "financial_close",
+    "allowed_roles": [
+      "FINANCE_MANAGER",
+      "CONTROLLER",
+      "AUDITOR"
+    ],
+    "company_codes": [
+      "1000"
+    ],
+    "confidentiality": "restricted",
+    "effective_date": "2026-01-01",
+    "source_uri": "synthetic://finance/policies/POL-CLOSE-001"
+  },
+  {
+    "chunk_id": "AP-001-01",
+    "policy_id": "POL-AP-001",
+    "title": "Vendor Bank Account Changes",
+    "content": "Vendor bank account changes require independent verification of the request, supporting documentation and approval from an AP Manager before the master-data change is released.",
+    "business_domain": "accounts_payable",
+    "allowed_roles": [
+      "AP_ANALYST",
+      "AP_MANAGER",
+      "AUDITOR"
+    ],
+    "company_codes": [
+      "1000",
+      "2000"
+    ],
+    "confidentiality": "restricted",
+    "effective_date": "2026-01-01",
+    "source_uri": "synthetic://finance/policies/POL-AP-001"
+  },
+  {
+    "chunk_id": "PAY-001-01",
+    "policy_id": "POL-PAY-001",
+    "title": "Payroll Adjustment Records",
+    "content": "Payroll adjustment records contain restricted employee compensation data and may only be reviewed by Payroll, Controller or authorized Audit personnel.",
+    "business_domain": "payroll",
+    "allowed_roles": [
+      "PAYROLL_SPECIALIST",
+      "CONTROLLER",
+      "AUDITOR"
+    ],
+    "company_codes": [
+      "1000"
+    ],
+    "confidentiality": "highly_restricted",
+    "effective_date": "2026-01-01",
+    "source_uri": "synthetic://finance/policies/POL-PAY-001"
+  },
+  {
+    "chunk_id": "AUD-001-01",
+    "policy_id": "POL-AUD-001",
+    "title": "Read-Only Audit Evidence",
+    "content": "Authorized auditors may receive read-only access to approved journal evidence. Audit access does not permit posting, changing or approving financial transactions.",
+    "business_domain": "audit",
+    "allowed_roles": [
+      "AUDITOR"
+    ],
+    "company_codes": [
+      "*"
+    ],
+    "confidentiality": "restricted",
+    "effective_date": "2026-01-01",
+    "source_uri": "synthetic://finance/policies/POL-AUD-001"
+  }
+]

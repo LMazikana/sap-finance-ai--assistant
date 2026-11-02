@@ -1,0 +1,43 @@
+{
+    "day": 10,
+    "service": "sap-finance-ai-assistant",
+    "version": "0.1.0",
+    "deployment_target": "SAP BTP Cloud Foundry environment",
+    "runtime": "python-3.11.x",
+    "endpoints": {
+        "GET /health": {
+            "expected_status": 200,
+            "actual_status": 200
+        },
+        "POST /v1/finance/ask - information": {
+            "expected_status": 200,
+            "actual_status": 200,
+            "decision": "answer"
+        },
+        "POST /v1/finance/ask - action": {
+            "expected_status": 202,
+            "actual_status": 202,
+            "decision": "escalate"
+        },
+        "POST /v1/finance/ask - unauthorized": {
+            "expected_status": 200,
+            "actual_status": 200,
+            "decision": "refuse"
+        }
+    },
+    "deployment_controls": {
+        "http_health_check": true,
+        "dynamic_port": true,
+        "credentials_in_source_code": false,
+        "local_audit_file_disabled": true,
+        "role_aware_retrieval": true,
+        "human_approval": true,
+        "citation_validation": true
+    },
+    "future_service_bindings": [
+        "SAP AI Core",
+        "SAP Generative AI Hub orchestration",
+        "Centralized application logging",
+        "Enterprise identity and authorization"
+    ]
+}

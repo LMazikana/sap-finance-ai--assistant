@@ -1,0 +1,59 @@
+{
+  "day": 21,
+  "date": "2026-10-27",
+  "topic": "SAP Generative AI Hub prompt engineering",
+  "prompt_template": {
+    "name": "governed-sap-finance-assistant",
+    "version": "2.0.0",
+    "scenario": "finance-policy-guidance"
+  },
+  "total_tests": 9,
+  "passed_tests": 9,
+  "tests": [
+    {
+      "test_name": "template_version",
+      "passed": true,
+      "detail": "Version: 2.0.0"
+    },
+    {
+      "test_name": "system_user_role_order",
+      "passed": true,
+      "detail": "Roles: ['system', 'user']"
+    },
+    {
+      "test_name": "strict_response_schema",
+      "passed": true,
+      "detail": "Strict schema and no additional properties."
+    },
+    {
+      "test_name": "injection_isolated_to_user_message",
+      "passed": true,
+      "detail": "System prompt unchanged and angle brackets escaped."
+    },
+    {
+      "test_name": "unknown_role_blocked",
+      "passed": true,
+      "detail": "external_vendor cannot render a model request."
+    },
+    {
+      "test_name": "grounded_answer_accepted",
+      "passed": true,
+      "detail": "Errors: []"
+    },
+    {
+      "test_name": "invented_citation_rejected",
+      "passed": true,
+      "detail": "Errors: [\"Unknown citations: ['FIN-JE-999']\"]"
+    },
+    {
+      "test_name": "unexpected_field_rejected",
+      "passed": true,
+      "detail": "Errors: [\"Unexpected output fields: ['hidden_reasoning']\"]"
+    },
+    {
+      "test_name": "unsafe_escalation_rejected",
+      "passed": true,
+      "detail": "Errors: ['An escalated decision requires human approval.']"
+    }
+  ]
+}

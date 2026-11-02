@@ -1,0 +1,12 @@
+.git/
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.ipynb
+.env
+*.pem
+*.key
+logs/
+evaluations/
+notes/
+governance/
