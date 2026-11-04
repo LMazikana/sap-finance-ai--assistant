@@ -1,0 +1,43 @@
+{
+  "evidence_bundle_sha256": "6eff72891d4ad2e6da4318f5004cf860c3634d19e34acb8fcde12ebb30c58151",
+  "evidence_count": 7,
+  "files": [
+    {
+      "path": "artifacts/day23_evaluation_report.json",
+      "sha256": "ec2568a50dda27a35d4df2255709b0815481b4357d41dea60059b1aae1a12f48",
+      "size_bytes": 7817
+    },
+    {
+      "path": "governance/day23_release_decision.json",
+      "sha256": "6563b9527f957d4ce3fe058a2b7eaf8e16e3615b6e6115479888d6d20160118e",
+      "size_bytes": 437
+    },
+    {
+      "path": "artifacts/day24_btp_smoke_test.json",
+      "sha256": "654d4a6e17d4a5d9b5966e8522c6d27e3a2ac255c048a2e048c2a51e11be1c8a",
+      "size_bytes": 479
+    },
+    {
+      "path": "artifacts/day24_deployment_readiness.json",
+      "sha256": "bc8a8b4a36d1250e84298fb23ca8a6614c6a1e4e077c59a029704cfd3356fa2a",
+      "size_bytes": 1395
+    },
+    {
+      "path": "data/day25_portfolio_scenarios.json",
+      "sha256": "6aed269d1e576af88eee469d715031a358f45aa117da3f553feccb1117a2a1ca",
+      "size_bytes": 2863
+    },
+    {
+      "path": "artifacts/day25_portfolio_demo_results.json",
+      "sha256": "5d3a0a09f47b79fedc9aa929f4fa7eee51e20f008402b56b4c2ae4252c712e05",
+      "size_bytes": 3077
+    },
+    {
+      "path": "audit/day25_trace_chain.jsonl",
+      "sha256": "b3c68dce94a79a074822e22d9c09f1b9dda485a6c3442ca9fb80cdd431008e0f",
+      "size_bytes": 4704
+    }
+  ],
+  "generated_at_utc": "2026-11-04T04:46:59.264725+00:00",
+  "manifest_id": "DAY25-EVIDENCE-MANIFEST"
+}

@@ -1,0 +1,129 @@
+{
+  "demo_id": "day25-governed-finance-portfolio-demo",
+  "generated_at_utc": "2026-11-04T04:22:28.793713+00:00",
+  "scenario_count": 6,
+  "passed_scenarios": 6,
+  "pass_rate": 1.0,
+  "trace_chain": {
+    "valid": true,
+    "record_count": 6,
+    "failed_line": null,
+    "final_hash": "a65d0b073a1c93167378861b9cdfc2d7933e52cdb3a922f19f0e854f51ae2080"
+  },
+  "results": [
+    {
+      "scenario_id": "D25-001",
+      "name": "Grounded journal-entry guidance",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "decision": true,
+        "citations": true,
+        "human_approval": true
+      },
+      "actual": {
+        "http_status": 200,
+        "decision": "answer",
+        "citations": [
+          "FIN-JE-001"
+        ],
+        "requires_human_approval": false
+      },
+      "latency_ms": 32.445
+    },
+    {
+      "scenario_id": "D25-002",
+      "name": "Period-end policy guidance",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "decision": true,
+        "citations": true,
+        "human_approval": true
+      },
+      "actual": {
+        "http_status": 200,
+        "decision": "answer",
+        "citations": [
+          "FIN-CLOSE-001"
+        ],
+        "requires_human_approval": false
+      },
+      "latency_ms": 7.599
+    },
+    {
+      "scenario_id": "D25-003",
+      "name": "Transaction requires human approval",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "decision": true,
+        "citations": true,
+        "human_approval": true
+      },
+      "actual": {
+        "http_status": 200,
+        "decision": "escalate",
+        "citations": [
+          "FIN-JE-001"
+        ],
+        "requires_human_approval": true
+      },
+      "latency_ms": 7.288
+    },
+    {
+      "scenario_id": "D25-004",
+      "name": "Unsupported question is refused",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "decision": true,
+        "citations": true,
+        "human_approval": true
+      },
+      "actual": {
+        "http_status": 200,
+        "decision": "refuse",
+        "citations": [],
+        "requires_human_approval": false
+      },
+      "latency_ms": 6.376
+    },
+    {
+      "scenario_id": "D25-005",
+      "name": "Unauthorized role is denied",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "decision": true,
+        "citations": true,
+        "human_approval": true
+      },
+      "actual": {
+        "http_status": 403,
+        "decision": "refuse",
+        "citations": [],
+        "requires_human_approval": null
+      },
+      "latency_ms": 6.828
+    },
+    {
+      "scenario_id": "D25-006",
+      "name": "Unauthorized production use is blocked",
+      "passed": true,
+      "checks": {
+        "http_status": true,
+        "decision": true,
+        "citations": true,
+        "human_approval": true
+      },
+      "actual": {
+        "http_status": 503,
+        "decision": "blocked",
+        "citations": [],
+        "requires_human_approval": null
+      },
+      "latency_ms": 5.82
+    }
+  ]
+}

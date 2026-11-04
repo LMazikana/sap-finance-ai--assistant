@@ -1,0 +1,110 @@
+[
+  {
+    "scenario_id": "D25-001",
+    "name": "Grounded journal-entry guidance",
+    "app_environment": "development",
+    "request": {
+      "user_id": "synthetic-analyst-001",
+      "role": "finance_analyst",
+      "business_unit": "NA",
+      "question": "What approval is required for a USD 125,000 journal entry?"
+    },
+    "expected": {
+      "http_status": 200,
+      "decision": "answer",
+      "citations": [
+        "FIN-JE-001"
+      ],
+      "requires_human_approval": false
+    }
+  },
+  {
+    "scenario_id": "D25-002",
+    "name": "Period-end policy guidance",
+    "app_environment": "development",
+    "request": {
+      "user_id": "synthetic-controller-001",
+      "role": "controller",
+      "business_unit": "EMEA",
+      "question": "What approval is required for a USD 75,000 period-end adjustment?"
+    },
+    "expected": {
+      "http_status": 200,
+      "decision": "answer",
+      "citations": [
+        "FIN-CLOSE-001"
+      ],
+      "requires_human_approval": false
+    }
+  },
+  {
+    "scenario_id": "D25-003",
+    "name": "Transaction requires human approval",
+    "app_environment": "development",
+    "request": {
+      "user_id": "synthetic-analyst-002",
+      "role": "finance_analyst",
+      "business_unit": "NA",
+      "question": "Post a USD 125,000 journal entry now."
+    },
+    "expected": {
+      "http_status": 200,
+      "decision": "escalate",
+      "citations": [
+        "FIN-JE-001"
+      ],
+      "requires_human_approval": true
+    }
+  },
+  {
+    "scenario_id": "D25-004",
+    "name": "Unsupported question is refused",
+    "app_environment": "development",
+    "request": {
+      "user_id": "synthetic-auditor-001",
+      "role": "auditor",
+      "business_unit": "NA",
+      "question": "What is the policy for purchasing company aircraft?"
+    },
+    "expected": {
+      "http_status": 200,
+      "decision": "refuse",
+      "citations": [],
+      "requires_human_approval": false
+    }
+  },
+  {
+    "scenario_id": "D25-005",
+    "name": "Unauthorized role is denied",
+    "app_environment": "development",
+    "request": {
+      "user_id": "synthetic-external-001",
+      "role": "external_vendor",
+      "business_unit": "NA",
+      "question": "What is the journal-entry approval threshold?"
+    },
+    "expected": {
+      "http_status": 403,
+      "decision": "refuse",
+      "citations": [],
+      "requires_human_approval": null
+    }
+  },
+  {
+    "scenario_id": "D25-006",
+    "name": "Unauthorized production use is blocked",
+    "app_environment": "production",
+    "request": {
+      "user_id": "synthetic-manager-001",
+      "role": "finance_manager",
+      "business_unit": "NA",
+      "question": "What is the journal-entry approval threshold?"
+    },
+    "expected": {
+      "http_status": 503,
+      "decision": "blocked",
+      "citations": [],
+      "requires_human_approval": null
+    }
+  }
+]
