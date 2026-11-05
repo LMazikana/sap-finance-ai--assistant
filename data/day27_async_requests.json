@@ -1,0 +1,42 @@
+[
+  {
+    "request_id": "D27-R001",
+    "idempotency_key": "journal-guidance-001",
+    "user_role": "finance_analyst",
+    "business_unit": "NA",
+    "question": "What approval is required for a USD 125,000 journal entry?",
+    "delay_ms": 40
+  },
+  {
+    "request_id": "D27-R002",
+    "idempotency_key": "journal-guidance-001",
+    "user_role": "finance_analyst",
+    "business_unit": "NA",
+    "question": "What approval is required for a USD 125,000 journal entry?",
+    "delay_ms": 40
+  },
+  {
+    "request_id": "D27-R003",
+    "idempotency_key": "period-close-guidance-001",
+    "user_role": "controller",
+    "business_unit": "EMEA",
+    "question": "What approval is required for a USD 75,000 period-end adjustment?",
+    "delay_ms": 70
+  },
+  {
+    "request_id": "D27-R004",
+    "idempotency_key": "journal-post-action-001",
+    "user_role": "finance_analyst",
+    "business_unit": "NA",
+    "question": "Post a USD 125,000 journal entry now.",
+    "delay_ms": 30
+  },
+  {
+    "request_id": "D27-R005",
+    "idempotency_key": "slow-provider-001",
+    "user_role": "auditor",
+    "business_unit": "NA",
+    "question": "What is the journal-entry approval threshold?",
+    "delay_ms": 250
+  }
+]

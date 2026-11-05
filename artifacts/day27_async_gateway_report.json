@@ -1,0 +1,102 @@
+{
+  "report_id": "day27-async-api-resilience",
+  "generated_at_utc": "2026-11-05T04:45:18.197615+00:00",
+  "configuration": {
+    "timeout_seconds": 0.1,
+    "max_concurrency": 2
+  },
+  "metrics": {
+    "incoming_requests": 5,
+    "unique_idempotency_keys": 4,
+    "provider_calls": 4,
+    "provider_calls_avoided": 1,
+    "maximum_active_provider_calls": 2,
+    "successful_cache_entries": 3,
+    "timeout_count": 1
+  },
+  "checks": {
+    "five_responses_returned": true,
+    "duplicate_used_one_provider_call": true,
+    "one_duplicate_marked_reused": true,
+    "provider_calls_reduced_to_four": true,
+    "concurrency_limit_respected": true,
+    "slow_request_timed_out": true,
+    "execution_request_escalated": true,
+    "no_inflight_tasks_remain": true
+  },
+  "responses": [
+    {
+      "request_id": "D27-R001",
+      "idempotency_reused": false,
+      "result": {
+        "answer": "Journal entries above USD 100,000 require approval by a finance manager.",
+        "decision": "answer",
+        "requires_human_approval": false,
+        "citations": [
+          "FIN-JE-001"
+        ],
+        "rationale": "The authorized journal policy supports the response.",
+        "status": "success",
+        "latency_ms": 40.287
+      }
+    },
+    {
+      "request_id": "D27-R002",
+      "idempotency_reused": true,
+      "result": {
+        "answer": "Journal entries above USD 100,000 require approval by a finance manager.",
+        "decision": "answer",
+        "requires_human_approval": false,
+        "citations": [
+          "FIN-JE-001"
+        ],
+        "rationale": "The authorized journal policy supports the response.",
+        "status": "success",
+        "latency_ms": 40.287
+      }
+    },
+    {
+      "request_id": "D27-R003",
+      "idempotency_reused": false,
+      "result": {
+        "answer": "Adjustments above USD 50,000 require a regional finance manager.",
+        "decision": "answer",
+        "requires_human_approval": false,
+        "citations": [
+          "FIN-CLOSE-001"
+        ],
+        "rationale": "The authorized closing policy supports the response.",
+        "status": "success",
+        "latency_ms": 70.463
+      }
+    },
+    {
+      "request_id": "D27-R004",
+      "idempotency_reused": false,
+      "result": {
+        "answer": "I cannot execute this financial transaction. A human approver must review it.",
+        "decision": "escalate",
+        "requires_human_approval": true,
+        "citations": [
+          "FIN-JE-001"
+        ],
+        "rationale": "Financial execution is outside the assistant's authority.",
+        "status": "success",
+        "latency_ms": 74.804
+      }
+    },
+    {
+      "request_id": "D27-R005",
+      "idempotency_reused": false,
+      "result": {
+        "status": "timeout",
+        "answer": "The provider did not respond within the configured time limit.",
+        "decision": "refuse",
+        "requires_human_approval": false,
+        "citations": [],
+        "rationale": "No Finance answer is produced after a provider timeout.",
+        "latency_ms": 175.066
+      }
+    }
+  ]
+}
