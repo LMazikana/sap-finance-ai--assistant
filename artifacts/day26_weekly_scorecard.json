@@ -1,0 +1,86 @@
+{
+  "review_id": "day26-weekly-capability-review",
+  "generated_at_utc": "2026-11-05T04:19:06.831075+00:00",
+  "days_reviewed": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "capability_count": 6,
+  "completed_capabilities": 6,
+  "capability_completion_rate": 1.0,
+  "capabilities": [
+    {
+      "capability": "Python and model-provider APIs",
+      "status": "COMPLETE",
+      "found_evidence": [
+        "app/resilient_model_client.py",
+        "app/btp_service.py"
+      ],
+      "missing_evidence": [],
+      "minimum_required": 2
+    },
+    {
+      "capability": "Prompt engineering and output contracts",
+      "status": "COMPLETE",
+      "found_evidence": [
+        "prompts/finance_assistant_v2.json",
+        "app/prompt_contract.py"
+      ],
+      "missing_evidence": [],
+      "minimum_required": 2
+    },
+    {
+      "capability": "Authorized RAG and enterprise context",
+      "status": "COMPLETE",
+      "found_evidence": [
+        "app/governed_context_builder.py",
+        "artifacts/day22_approved_context_package.json"
+      ],
+      "missing_evidence": [],
+      "minimum_required": 2
+    },
+    {
+      "capability": "Evaluation, security and governance",
+      "status": "COMPLETE",
+      "found_evidence": [
+        "app/governance_evaluator.py",
+        "artifacts/day23_evaluation_report.json"
+      ],
+      "missing_evidence": [],
+      "minimum_required": 2
+    },
+    {
+      "capability": "SAP BTP deployment readiness",
+      "status": "COMPLETE",
+      "found_evidence": [
+        "deployment/manifest.yml",
+        "artifacts/day24_deployment_readiness.json"
+      ],
+      "missing_evidence": [],
+      "minimum_required": 2
+    },
+    {
+      "capability": "Portfolio demonstration and observability",
+      "status": "COMPLETE",
+      "found_evidence": [
+        "artifacts/day25_portfolio_demo_results.json",
+        "audit/day25_trace_chain.jsonl",
+        "portfolio/day25_demo_walkthrough.md"
+      ],
+      "missing_evidence": [],
+      "minimum_required": 3
+    }
+  ],
+  "quality_metrics": {
+    "hardened_release_gate": "PASS",
+    "human_approval_status": "PENDING",
+    "deployment_authorized": false,
+    "day24_smoke_tests_passed": true,
+    "day25_demo_pass_rate": 1.0,
+    "day25_trace_chain_valid": true
+  }
+}

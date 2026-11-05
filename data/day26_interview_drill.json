@@ -1,0 +1,59 @@
+[
+  {
+    "question_id": "Q1",
+    "question": "Walk me through the architecture of your governed SAP Finance AI assistant.",
+    "required_points": [
+      "API and input validation",
+      "role-aware authorization",
+      "authorized retrieval",
+      "structured output and citations",
+      "human approval",
+      "audit and evaluation"
+    ]
+  },
+  {
+    "question_id": "Q2",
+    "question": "How does your design reduce hallucination and unsupported Finance guidance?",
+    "required_points": [
+      "authorized context only",
+      "source citations",
+      "structured schema",
+      "refusal when context is insufficient",
+      "evaluation cases"
+    ]
+  },
+  {
+    "question_id": "Q3",
+    "question": "What happens when a user asks the assistant to post, approve or reverse a financial transaction?",
+    "required_points": [
+      "no autonomous execution",
+      "escalation decision",
+      "human approval flag",
+      "audit event",
+      "least privilege"
+    ]
+  },
+  {
+    "question_id": "Q4",
+    "question": "How do you determine whether a new prompt or model version can be released?",
+    "required_points": [
+      "same evaluation dataset",
+      "quality and security scorers",
+      "critical failure gate",
+      "technical readiness",
+      "separate human deployment approval"
+    ]
+  },
+  {
+    "question_id": "Q5",
+    "question": "How does this project combine SAP and Databricks capabilities?",
+    "required_points": [
+      "SAP BDC governed data and semantics",
+      "SAP Generative AI Hub orchestration",
+      "SAP BTP deployment",
+      "Databricks evaluation",
+      "MLflow tracing",
+      "Unity Catalog governance"
+    ]
+  }
+]

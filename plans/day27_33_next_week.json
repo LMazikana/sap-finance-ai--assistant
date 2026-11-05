@@ -1,0 +1,51 @@
+[
+  {
+    "date": "2026-11-02",
+    "day": 27,
+    "objective": "Add async request handling, idempotency keys and timeout control to the model-provider interface.",
+    "portfolio_evidence": "Async provider adapter and concurrency tests",
+    "theme": "Monday \u2014 Python and APIs"
+  },
+  {
+    "date": "2026-11-03",
+    "day": 28,
+    "objective": "Create a mock SAP orchestration adapter covering templating, masking and content-filter configuration.",
+    "portfolio_evidence": "SAP orchestration configuration contract",
+    "theme": "Tuesday \u2014 SAP Generative AI Hub and prompts"
+  },
+  {
+    "date": "2026-11-04",
+    "day": 29,
+    "objective": "Upgrade keyword retrieval to semantic retrieval while preserving role and business-unit filters.",
+    "portfolio_evidence": "Local embedding index and authorized retrieval tests",
+    "theme": "Wednesday \u2014 RAG and enterprise data"
+  },
+  {
+    "date": "2026-11-05",
+    "day": 30,
+    "objective": "Measure retrieval precision, recall, citation validity and access leakage for the semantic retriever.",
+    "portfolio_evidence": "RAG quality and security evaluation report",
+    "theme": "Thursday \u2014 Evaluation, security and governance"
+  },
+  {
+    "date": "2026-11-06",
+    "day": 31,
+    "objective": "Parse simulated VCAP_SERVICES bindings safely and test startup failure when required bindings are absent.",
+    "portfolio_evidence": "BTP service-binding adapter and configuration tests",
+    "theme": "Friday \u2014 SAP BTP integration and deployment"
+  },
+  {
+    "date": "2026-11-07",
+    "day": 32,
+    "objective": "Build a simple reviewer interface for Finance answers, citations and human approval decisions.",
+    "portfolio_evidence": "Reviewer UI prototype and screenshots",
+    "theme": "Saturday \u2014 Portfolio project"
+  },
+  {
+    "date": "2026-11-08",
+    "day": 33,
+    "objective": "Demonstrate semantic RAG, configuration controls and human review in a five-minute interview walkthrough.",
+    "portfolio_evidence": "Week-four scorecard and demonstration script",
+    "theme": "Sunday \u2014 Review and interview preparation"
+  }
+]
