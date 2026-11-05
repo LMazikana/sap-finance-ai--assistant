@@ -1,0 +1,97 @@
+{
+  "chunks": [
+    {
+      "chunk_id": "FIN-JE-001",
+      "classification": "INTERNAL",
+      "content": "Manual journal entries must include supporting evidence. The preparer and approver must be different people. Entries above USD 100,000 require controller approval before posting.",
+      "content_sha256": "e2e72a330268d34595881aced5194b209fa5f03a0e96f4f8b686162c0b191e25",
+      "relevance_score": 0.875,
+      "source_system": "SAP_FINANCE_POLICY",
+      "source_uri": "sap://finance-policy/manual-journal-approval",
+      "title": "Manual Journal Entry Approval",
+      "token_estimate": 24,
+      "truncated": false
+    },
+    {
+      "chunk_id": "FIN-AUD-003",
+      "classification": "INTERNAL",
+      "content": "Finance approval records, supporting documents and change logs must be retained for seven years. Audit evidence must identify the preparer, approver, timestamp and source transaction.",
+      "content_sha256": "f5a5779c46838131d1efd431a218b31d7d18b2724f4b2b98239bde746617673e",
+      "relevance_score": 0.375,
+      "source_system": "SAP_GOVERNANCE_POLICY",
+      "source_uri": "sap://governance-policy/finance-evidence-retention",
+      "title": "Finance Audit Evidence Retention",
+      "token_estimate": 25,
+      "truncated": false
+    }
+  ],
+  "citations": [
+    "FIN-JE-001",
+    "FIN-AUD-003"
+  ],
+  "context_text": "[FIN-JE-001] Manual Journal Entry Approval\nManual journal entries must include supporting evidence. The preparer and approver must be different people. Entries above USD 100,000 require controller approval before posting.\n\n[FIN-AUD-003] Finance Audit Evidence Retention\nFinance approval records, supporting documents and change logs must be retained for seven years. Audit evidence must identify the preparer, approver, timestamp and source transaction.",
+  "created_at_utc": "2026-11-05T04:18:01.165152+00:00",
+  "governance": {
+    "approved_for_generation": true,
+    "reason": "authorized_context_available",
+    "status": "APPROVED"
+  },
+  "lineage": [
+    {
+      "citation": "FIN-JE-001",
+      "content_sha256": "e2e72a330268d34595881aced5194b209fa5f03a0e96f4f8b686162c0b191e25",
+      "source_system": "SAP_FINANCE_POLICY",
+      "source_uri": "sap://finance-policy/manual-journal-approval"
+    },
+    {
+      "citation": "FIN-AUD-003",
+      "content_sha256": "f5a5779c46838131d1efd431a218b31d7d18b2724f4b2b98239bde746617673e",
+      "source_system": "SAP_GOVERNANCE_POLICY",
+      "source_uri": "sap://governance-policy/finance-evidence-retention"
+    }
+  ],
+  "metrics": {
+    "authorized_relevant_count": 2,
+    "candidate_count": 6,
+    "selected_count": 2,
+    "token_budget": 250,
+    "tokens_used": 49
+  },
+  "package_id": "CTX-FFD43635756CCD84",
+  "rejected_candidates": [
+    {
+      "chunk_id": "FIN-PAY-002",
+      "reasons": [
+        "role_not_authorized"
+      ]
+    },
+    {
+      "chunk_id": "FIN-CLOSE-004",
+      "reasons": [
+        "company_code_not_authorized",
+        "no_relevance"
+      ]
+    },
+    {
+      "chunk_id": "FIN-PAYROLL-005",
+      "reasons": [
+        "classification_not_allowed",
+        "no_relevance",
+        "role_not_authorized"
+      ]
+    },
+    {
+      "chunk_id": "FIN-INJECT-006",
+      "reasons": [
+        "prompt_injection_in_content"
+      ]
+    }
+  ],
+  "request": {
+    "company_code": "1000",
+    "question_hash": "bc9d8ea0d0d2db33fad5147650862eab2d987d1f58775d399d53fc37f19ac1c4",
+    "token_budget": 250,
+    "top_k": 3,
+    "user_role": "FINANCE_ANALYST"
+  }
+}

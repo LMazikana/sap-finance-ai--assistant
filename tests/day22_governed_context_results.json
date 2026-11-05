@@ -1,0 +1,80 @@
+{
+  "generated_at_utc": "2026-11-05T04:13:12.266926+00:00",
+  "report_id": "DAY22-GOVERNED-CONTEXT-TESTS",
+  "results": [
+    {
+      "details": {
+        "citations": [
+          "FIN-JE-001",
+          "FIN-AUD-003"
+        ]
+      },
+      "name": "authorized journal context",
+      "passed": true,
+      "test_id": "D22-T01"
+    },
+    {
+      "details": {
+        "citations": []
+      },
+      "name": "company-code isolation",
+      "passed": true,
+      "test_id": "D22-T02"
+    },
+    {
+      "details": {
+        "citations": []
+      },
+      "name": "restricted payroll blocked",
+      "passed": true,
+      "test_id": "D22-T03"
+    },
+    {
+      "details": {
+        "citations": [
+          "FIN-JE-001"
+        ],
+        "rejection": [
+          {
+            "chunk_id": "FIN-INJECT-006",
+            "reasons": [
+              "prompt_injection_in_content"
+            ]
+          }
+        ]
+      },
+      "name": "retrieved prompt injection excluded",
+      "passed": true,
+      "test_id": "D22-T04"
+    },
+    {
+      "details": {
+        "citations": [
+          "FIN-AUD-003",
+          "FIN-JE-001"
+        ],
+        "lineage_ids": [
+          "FIN-AUD-003",
+          "FIN-JE-001"
+        ]
+      },
+      "name": "citation lineage retained",
+      "passed": true,
+      "test_id": "D22-T05"
+    },
+    {
+      "details": {
+        "token_budget": 35,
+        "tokens_used": 24
+      },
+      "name": "token budget enforced",
+      "passed": true,
+      "test_id": "D22-T06"
+    }
+  ],
+  "summary": {
+    "pass_rate": 1.0,
+    "passed_tests": 6,
+    "total_tests": 6
+  }
+}
