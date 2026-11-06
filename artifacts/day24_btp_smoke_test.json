@@ -1,0 +1,19 @@
+{
+  "test_run": "day24-btp-api-smoke-test",
+  "generated_at_utc": "2026-11-04T04:09:06.495217+00:00",
+  "results": {
+    "health_endpoint": true,
+    "technical_readiness_endpoint": true,
+    "grounded_answer": true,
+    "human_approval_escalation": true,
+    "unauthorized_production_block": true,
+    "audit_log_created": true
+  },
+  "http_statuses": {
+    "health": 200,
+    "ready": 200,
+    "grounded_answer": 200,
+    "escalation": 200,
+    "production_request": 503
+  }
+}

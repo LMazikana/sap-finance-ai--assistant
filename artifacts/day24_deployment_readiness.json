@@ -1,0 +1,49 @@
+{
+  "assessment_id": "day24-btp-deployment-readiness",
+  "generated_at_utc": "2026-11-04T03:56:10.771968+00:00",
+  "deployment_files": [
+    "app/btp_service.py",
+    "deployment/manifest.yml",
+    "runtime.txt",
+    "Procfile",
+    "requirements.txt",
+    ".cfignore"
+  ],
+  "all_deployment_files_exist": true,
+  "smoke_tests": {
+    "health_endpoint": true,
+    "technical_readiness_endpoint": true,
+    "grounded_answer": true,
+    "human_approval_escalation": true,
+    "unauthorized_production_block": true,
+    "audit_log_created": true
+  },
+  "secret_scan_clean": false,
+  "secret_findings": [
+    {
+      "file": "deployment/manifest.yml",
+      "pattern": "sk-"
+    }
+  ],
+  "sap_ai_core_configuration": {
+    "sap_ai_core_configuration_complete": false,
+    "credential_fields_present": {
+      "AICORE_CLIENT_ID": false,
+      "AICORE_CLIENT_SECRET": false,
+      "AICORE_AUTH_URL": false,
+      "AICORE_BASE_URL": false,
+      "AICORE_RESOURCE_GROUP": false
+    },
+    "credential_values_exposed": false
+  },
+  "technical_gate": "PASS",
+  "human_approval_status": "PENDING",
+  "deployment_authorized": false,
+  "next_deployment_requirements": [
+    "SAP BTP Cloud Foundry subaccount and space",
+    "Bound SAP AI Core service instance",
+    "Bound authentication service such as XSUAA",
+    "Human deployment authorization",
+    "Production monitoring and alert configuration"
+  ]
+}

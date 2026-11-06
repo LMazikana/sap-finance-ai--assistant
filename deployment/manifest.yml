@@ -1,0 +1,17 @@
+---
+applications:
+  - name: governed-sap-finance-assistant
+    path: ..
+    memory: 512M
+    disk-quota: 1G
+    instances: 1
+    random-route: true
+    buildpacks:
+      - python_buildpack
+    command: python -m uvicorn app.btp_service:app --host 0.0.0.0 --port $PORT
+    health-check-type: http
+    health-check-http-endpoint: /health
+    env:
+      APP_ENV: production
+      LOG_LEVEL: INFO
+      AICORE_RESOURCE_GROUP: default

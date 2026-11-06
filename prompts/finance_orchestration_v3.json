@@ -1,0 +1,73 @@
+{
+  "contract_id": "governed-finance-orchestration",
+  "version": "3.0.0",
+  "target_service": "SAP AI Core Orchestration Service V2",
+  "implementation_status": "local_mock_only",
+  "authorization": {
+    "allowed_roles": [
+      "finance_analyst",
+      "controller",
+      "auditor"
+    ]
+  },
+  "modules": {
+    "prompt_templating": {
+      "messages": [
+        {
+          "role": "system",
+          "content": "Use only approved Finance policy context. Never execute a Finance transaction. Return the required JSON fields."
+        },
+        {
+          "role": "user",
+          "content": "ROLE={{?user_role}}\nBUSINESS_UNIT={{?business_unit}}\nQUESTION={{?question}}\nAPPROVED_CONTEXT={{?approved_context}}"
+        }
+      ]
+    },
+    "model": {
+      "name": "enterprise-chat-model-placeholder",
+      "temperature": 0.1,
+      "max_tokens": 500
+    },
+    "masking": {
+      "method": "anonymization",
+      "entities": [
+        "EMAIL",
+        "IBAN",
+        "BANK_ACCOUNT"
+      ],
+      "mask_grounding_input": true
+    },
+    "filtering": {
+      "input": {
+        "mode": "block",
+        "prompt_shield_patterns": [
+          "ignore previous instructions",
+          "reveal system prompt",
+          "bypass policy"
+        ]
+      },
+      "output": {
+        "require_structured_json": true,
+        "reject_unapproved_citations": true
+      }
+    },
+    "grounding": {
+      "mode": "application_supplied_authorized_context",
+      "citations_required_for_answers": true
+    }
+  },
+  "output_contract": {
+    "required_fields": [
+      "answer",
+      "decision",
+      "requires_human_approval",
+      "citations",
+      "rationale"
+    ],
+    "allowed_decisions": [
+      "answer",
+      "refuse",
+      "escalate"
+    ]
+  }
+}

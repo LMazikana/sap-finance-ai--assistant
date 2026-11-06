@@ -1,311 +1,472 @@
-"""HTTP service for the governed SAP Finance assistant."""
+"""Deployment API for the governed SAP Finance assistant."""
 
-from __future__ import annotations
-
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Literal
+from uuid import uuid4
+import hashlib
 import json
 import os
-import uuid
-from pathlib import Path
-from typing import Any
 
-from flask import Flask, jsonify, request
-
-from app.governance import (
-    append_audit_event,
-    build_audit_event,
-    determine_expected_decision,
-    validate_assistant_response,
-)
-from app.rag_pipeline import retrieve_chunks
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
 
 
-# Basic service metadata.
-SERVICE_NAME = "sap-finance-ai-assistant"
-SERVICE_VERSION = "0.1.0"
+SERVICE_NAME = "governed-sap-finance-assistant"
+SERVICE_VERSION = "0.24.0"
 
-# Find the repository root from this Python file's location.
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-# Reference the citation-ready policy chunks.
-POLICY_CHUNKS_FILE = PROJECT_ROOT.joinpath(
-    "data",
-    "finance_policy_chunks.json",
+DECISION_PATH = (
+    PROJECT_ROOT
+    / "governance"
+    / "day23_release_decision.json"
 )
 
-# Optional local audit location.
-#
-# Production will use standard output and centralized
-# application logging instead of container-local storage.
-LOCAL_AUDIT_FILE = PROJECT_ROOT.joinpath(
-    "logs",
-    "runtime_audit.jsonl",
+AUDIT_PATH = (
+    PROJECT_ROOT
+    / "audit"
+    / "day24_api_audit.jsonl"
 )
 
 
-def load_policy_chunks() -> list[dict[str, Any]]:
-    """Load citation-ready policy chunks from JSON."""
+ROLE_POLICY_ACCESS = {
+    "finance_analyst": {
+        "FIN-JE-001",
+        "FIN-CLOSE-001",
+    },
+    "finance_manager": {
+        "FIN-JE-001",
+        "FIN-CLOSE-001",
+    },
+    "controller": {
+        "FIN-JE-001",
+        "FIN-CLOSE-001",
+    },
+    "auditor": {
+        "FIN-JE-001",
+        "FIN-CLOSE-001",
+    },
+}
+
+
+class FinanceQuestion(BaseModel):
+    """Validated incoming Finance-assistant request."""
+
+    user_id: str = Field(
+        min_length=1,
+        max_length=100,
+    )
+
+    role: str = Field(
+        min_length=1,
+        max_length=50,
+    )
+
+    business_unit: str = Field(
+        min_length=1,
+        max_length=50,
+    )
+
+    question: str = Field(
+        min_length=3,
+        max_length=2000,
+    )
+
+
+class FinanceDecision(BaseModel):
+    """Core governed output contract."""
+
+    answer: str
+
+    decision: Literal[
+        "answer",
+        "refuse",
+        "escalate",
+    ]
+
+    requires_human_approval: bool
+
+    citations: list[str]
+
+    rationale: str
+
+
+class FinanceApiResponse(BaseModel):
+    """API envelope containing the governed decision."""
+
+    request_id: str
+    result: FinanceDecision
+    audit_event_id: str
+
+
+def read_governance_decision() -> dict:
+    """
+    Read the latest release-gate decision.
+
+    Missing governance evidence always produces a safe,
+    unauthorized default.
+    """
+
+    if not DECISION_PATH.exists():
+        return {
+            "automated_technical_gate": "UNKNOWN",
+            "human_approval_status": "UNKNOWN",
+            "deployment_authorized": False,
+        }
 
     return json.loads(
-        POLICY_CHUNKS_FILE.read_text(encoding="utf-8")
+        DECISION_PATH.read_text(
+            encoding="utf-8"
+        )
     )
 
 
-# Load the approved synthetic evidence at application start.
-POLICY_CHUNKS = load_policy_chunks()
-
-
-def create_candidate_response(
-    question: str,
-    retrieved_evidence: list[dict[str, Any]],
-) -> dict[str, Any]:
+def append_audit_event(event: dict) -> None:
     """
-    Create a deterministic response for deployment testing.
-
-    A future production version will replace the deterministic
-    answer generation with SAP Generative AI Hub orchestration.
+    Append one JSON event to the audit log.
     """
 
-    decision = determine_expected_decision(
-        question=question,
-        retrieved_evidence=retrieved_evidence,
+    AUDIT_PATH.parent.mkdir(
+        parents=True,
+        exist_ok=True,
     )
 
-    evidence_policy_ids = sorted(
-        {
-            evidence["policy_id"]
-            for evidence in retrieved_evidence
-        }
-    )
+    with AUDIT_PATH.open(
+        "a",
+        encoding="utf-8",
+    ) as audit_file:
+        audit_file.write(
+            json.dumps(event)
+            + "\n"
+        )
 
-    # Supported informational request.
-    if decision == "answer":
-        strongest_evidence = retrieved_evidence[0]
 
+def question_hash(question: str) -> str:
+    """
+    Create a traceable fingerprint without logging the raw question.
+    """
+
+    return hashlib.sha256(
+        question.encode("utf-8")
+    ).hexdigest()
+
+
+def identify_policy(question: str):
+    """
+    Map the synthetic question to an approved policy.
+
+    This is a deterministic deployment smoke-test implementation,
+    not an LLM or production retrieval system.
+    """
+
+    normalized_question = question.lower()
+
+    if (
+        "journal" in normalized_question
+        or "100,000" in normalized_question
+        or "125,000" in normalized_question
+    ):
         return {
+            "policy_id": "FIN-JE-001",
             "answer": (
-                f"According to {strongest_evidence['title']}: "
-                f"{strongest_evidence['text']}"
-            ),
-            "decision": "answer",
-            "requires_human_approval": False,
-            "citations": evidence_policy_ids,
-            "rationale": (
-                "The response is grounded in authorized "
-                "retrieved policy evidence."
+                "Journal entries above USD 100,000 require "
+                "approval by a finance manager."
             ),
         }
 
-    # Financial execution request.
-    if decision == "escalate":
+    if (
+        "period-end" in normalized_question
+        or "adjustment" in normalized_question
+        or "50,000" in normalized_question
+    ):
         return {
+            "policy_id": "FIN-CLOSE-001",
             "answer": (
-                "I cannot execute or approve this financial "
-                "transaction. The request requires human review."
-            ),
-            "decision": "escalate",
-            "requires_human_approval": True,
-            "citations": evidence_policy_ids,
-            "rationale": (
-                "Financial execution is restricted to an "
-                "authorized human decision-maker."
+                "Period-end adjustments above USD 50,000 "
+                "require approval by a regional finance manager."
             ),
         }
 
-    # Unsupported, unauthorized or unsafe request.
+    return None
+
+
+app = FastAPI(
+    title="Governed SAP Finance Assistant",
+    version=SERVICE_VERSION,
+)
+
+
+@app.get("/health")
+def health():
+    """
+    Confirm that the application process is operating.
+    """
+
     return {
-        "answer": (
-            "I cannot answer this request using approved "
-            "and authorized policy evidence."
+        "status": "healthy",
+        "service": SERVICE_NAME,
+        "version": SERVICE_VERSION,
+    }
+
+
+@app.get("/ready")
+def ready():
+    """
+    Confirm that the automated technical gate passed.
+
+    This does not claim that production deployment was authorized.
+    """
+
+    governance = read_governance_decision()
+
+    if (
+        governance.get(
+            "automated_technical_gate"
+        )
+        != "PASS"
+    ):
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "status": "not_ready",
+                "reason": (
+                    "The automated technical gate has not passed."
+                ),
+            },
+        )
+
+    return {
+        "status": "technical_ready",
+        "technical_gate": "PASS",
+        "human_approval_status": governance.get(
+            "human_approval_status"
         ),
-        "decision": "refuse",
-        "requires_human_approval": False,
-        "citations": [],
-        "rationale": (
-            "The request was unsafe, unsupported or lacked "
-            "authorized evidence."
+        "deployment_authorized": governance.get(
+            "deployment_authorized",
+            False,
         ),
     }
 
 
-def emit_audit_event(event: dict[str, Any]) -> None:
+@app.get("/configuration")
+def configuration():
     """
-    Emit a privacy-conscious audit event.
+    Return only whether required SAP AI Core configuration exists.
 
-    Cloud Foundry captures standard output, which can be sent
-    to an approved centralized logging service.
+    Credential values are never returned.
     """
 
-    print(
-        "AUDIT_EVENT " + json.dumps(event, sort_keys=True),
-        flush=True,
-    )
+    required_fields = [
+        "AICORE_CLIENT_ID",
+        "AICORE_CLIENT_SECRET",
+        "AICORE_AUTH_URL",
+        "AICORE_BASE_URL",
+        "AICORE_RESOURCE_GROUP",
+    ]
 
-    # Local audit-file storage is disabled by default.
-    #
-    # It can be enabled explicitly for a local demonstration,
-    # but should remain disabled in Cloud Foundry because
-    # application-container storage is temporary.
-    local_file_enabled = os.getenv(
-        "ENABLE_LOCAL_AUDIT_FILE",
-        "false",
-    ).lower() == "true"
+    field_status = {
+        field_name: bool(
+            os.getenv(field_name)
+        )
+        for field_name in required_fields
+    }
 
-    if local_file_enabled:
+    return {
+        "sap_ai_core_configuration_complete": all(
+            field_status.values()
+        ),
+        "credential_fields_present": field_status,
+        "credential_values_exposed": False,
+    }
+
+
+@app.post(
+    "/ask",
+    response_model=FinanceApiResponse,
+)
+def ask_finance_assistant(
+    request: FinanceQuestion,
+):
+    """
+    Process a governed synthetic Finance request.
+    """
+
+    request_id = uuid4().hex
+    audit_event_id = uuid4().hex
+
+    governance = read_governance_decision()
+
+    app_environment = os.getenv(
+        "APP_ENV",
+        "development",
+    ).lower()
+
+    # Production requests remain blocked until the governance
+    # record explicitly authorizes deployment.
+    if (
+        app_environment == "production"
+        and not governance.get(
+            "deployment_authorized",
+            False,
+        )
+    ):
         append_audit_event(
-            event=event,
-            audit_file=LOCAL_AUDIT_FILE,
+            {
+                "audit_event_id": audit_event_id,
+                "request_id": request_id,
+                "timestamp_utc": datetime.now(
+                    timezone.utc
+                ).isoformat(),
+                "event": "production_request_blocked",
+                "question_sha256": question_hash(
+                    request.question
+                ),
+                "role": request.role,
+                "business_unit": request.business_unit,
+            }
         )
 
-
-# Create the Flask application.
-app = Flask(__name__)
-
-
-@app.get("/health")
-def health() -> tuple[Any, int]:
-    """
-    Return service-health information.
-
-    SAP BTP Cloud Foundry can call this endpoint to determine
-    whether the application is healthy.
-    """
-
-    return jsonify(
-        {
-            "status": "ok",
-            "service": SERVICE_NAME,
-            "version": SERVICE_VERSION,
-            "environment": os.getenv(
-                "APP_ENV",
-                "local",
-            ),
-            "model_mode": os.getenv(
-                "MODEL_MODE",
-                "deterministic-preview",
-            ),
-            "policy_chunks_loaded": len(POLICY_CHUNKS),
-        }
-    ), 200
-
-
-@app.post("/v1/finance/ask")
-def ask_finance_assistant() -> tuple[Any, int]:
-    """
-    Process a governed finance-assistant request.
-
-    Required JSON fields:
-    - question
-    - user_role
-    """
-
-    request_body = request.get_json(silent=True) or {}
-
-    question = str(
-        request_body.get("question", "")
-    ).strip()
-
-    user_role = str(
-        request_body.get("user_role", "")
-    ).strip()
-
-    # Reject incomplete requests before retrieval.
-    if not question or not user_role:
-        return jsonify(
-            {
-                "error": "invalid_request",
-                "message": (
-                    "question and user_role are required."
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "decision": "blocked",
+                "reason": (
+                    "Production deployment has not received "
+                    "human authorization."
                 ),
-            }
-        ), 400
-
-    # Read retrieval depth from configuration.
-    top_k = int(
-        os.getenv("RETRIEVAL_TOP_K", "3")
-    )
-
-    # Apply role filtering while retrieving evidence.
-    retrieved_evidence = retrieve_chunks(
-        query=question,
-        user_role=user_role,
-        chunks=POLICY_CHUNKS,
-        top_k=top_k,
-    )
-
-    # Create a deterministic preview response.
-    candidate_response = create_candidate_response(
-        question=question,
-        retrieved_evidence=retrieved_evidence,
-    )
-
-    # Apply the Day 9 governance validator.
-    validation = validate_assistant_response(
-        question=question,
-        response=candidate_response,
-        retrieved_evidence=retrieved_evidence,
-    )
-
-    # Accept a caller-supplied request ID or generate one.
-    request_id = (
-        request.headers.get("X-Request-ID")
-        or str(uuid.uuid4())
-    )
-
-    # Build an audit event without storing the raw question.
-    audit_event = build_audit_event(
-        event_id=request_id,
-        user_role=user_role,
-        question=question,
-        response=candidate_response,
-        validation=validation,
-    )
-
-    audit_event["service_version"] = SERVICE_VERSION
-
-    emit_audit_event(audit_event)
-
-    # Never return an answer that failed governance.
-    if not validation["passed"]:
-        return jsonify(
-            {
-                "request_id": request_id,
-                "error": "governance_validation_failed",
-                "violations": validation["violations"],
-            }
-        ), 500
-
-    # HTTP 202 means the request was accepted for review.
-    status_code = (
-        202
-        if candidate_response["decision"] == "escalate"
-        else 200
-    )
-
-    return jsonify(
-        {
-            "request_id": request_id,
-            "result": candidate_response,
-            "governance": {
-                "validated": True,
-                "evidence_count": len(
-                    retrieved_evidence
-                ),
-                "risk_flags": validation["risk_flags"],
             },
+        )
+
+    normalized_role = request.role.lower()
+
+    if normalized_role not in ROLE_POLICY_ACCESS:
+        append_audit_event(
+            {
+                "audit_event_id": audit_event_id,
+                "request_id": request_id,
+                "timestamp_utc": datetime.now(
+                    timezone.utc
+                ).isoformat(),
+                "event": "role_access_denied",
+                "question_sha256": question_hash(
+                    request.question
+                ),
+                "role": request.role,
+                "business_unit": request.business_unit,
+            }
+        )
+
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "decision": "refuse",
+                "reason": "The role is not authorized.",
+            },
+        )
+
+    policy = identify_policy(
+        request.question
+    )
+
+    action_words = [
+        "post",
+        "approve",
+        "reverse",
+        "modify",
+        "execute",
+    ]
+
+    normalized_question = (
+        request.question.lower()
+    )
+
+    action_requested = any(
+        action_word in normalized_question
+        for action_word in action_words
+    )
+
+    permitted_policies = ROLE_POLICY_ACCESS[
+        normalized_role
+    ]
+
+    if (
+        policy is not None
+        and policy["policy_id"]
+        not in permitted_policies
+    ):
+        policy = None
+
+    if action_requested:
+        result = {
+            "answer": (
+                "I cannot execute the requested financial "
+                "transaction. A human approver must review it."
+            ),
+            "decision": "escalate",
+            "requires_human_approval": True,
+            "citations": (
+                [policy["policy_id"]]
+                if policy is not None
+                else []
+            ),
+            "rationale": (
+                "Financial execution is outside the assistant's "
+                "authority."
+            ),
         }
-    ), status_code
 
+    elif policy is not None:
+        result = {
+            "answer": policy["answer"],
+            "decision": "answer",
+            "requires_human_approval": False,
+            "citations": [
+                policy["policy_id"]
+            ],
+            "rationale": (
+                "The answer is supported by an authorized "
+                "synthetic Finance policy."
+            ),
+        }
 
-if __name__ == "__main__":
-    # Cloud Foundry dynamically provides the PORT variable.
-    #
-    # Port 8080 is used only when running outside
-    # Cloud Foundry.
-    application_port = int(
-        os.getenv("PORT", "8080")
+    else:
+        result = {
+            "answer": (
+                "I cannot answer because no authorized policy "
+                "supports the request."
+            ),
+            "decision": "refuse",
+            "requires_human_approval": False,
+            "citations": [],
+            "rationale": (
+                "No authorized context was available."
+            ),
+        }
+
+    append_audit_event(
+        {
+            "audit_event_id": audit_event_id,
+            "request_id": request_id,
+            "timestamp_utc": datetime.now(
+                timezone.utc
+            ).isoformat(),
+            "event": "finance_request_completed",
+            "question_sha256": question_hash(
+                request.question
+            ),
+            "role": request.role,
+            "business_unit": request.business_unit,
+            "decision": result["decision"],
+            "citations": result["citations"],
+            "requires_human_approval": result[
+                "requires_human_approval"
+            ],
+        }
     )
 
-    app.run(
-        host="0.0.0.0",
-        port=application_port,
-    )
+    return {
+        "request_id": request_id,
+        "result": result,
+        "audit_event_id": audit_event_id,
+    }
